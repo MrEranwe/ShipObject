@@ -110,7 +110,7 @@
                             "Capabilities": {
                                 "RPM": 500
                             }, 
-                            "Cost": 400
+                            "Cost": 0
                         },
                         "Engine2":{
                             "General":{
@@ -146,6 +146,7 @@
                     }
             this.CostFn = function(){
                         var TotalCost = 0
+                        var NoCost = "The elements with no cost are: "
                         for (var key1 in ShipA.ObjectsData){ 
                             if (!ShipA.ObjectsData.hasOwnProperty(key1)) continue;
                             var obj1 = ShipA.ObjectsData[key1];
@@ -153,16 +154,24 @@
                                 if (!obj1.hasOwnProperty(key2)) continue;
                                 if (obj1.Cost > 0){
                                 var SumCost = obj1.Cost
-                                
                                 } 
-                                else {
-                                var NoCost = key1
+                                else if (obj1.Cost === 0) {
+                                var SumNoCost = key1
+                                var SumCost = 0
+                                console.log(SumNoCost)
+                                
                                 }
+                                                               
                             }
-                        TotalCost = SumCost + TotalCost
-                        SumCost = 0;
-                        console.log(TotalCost)
+                            TotalCost = SumCost + TotalCost
+                            if (SumNoCost !== undefined){
+                                var NoCost = NoCost + SumNoCost + ", "
+                                console.log(NoCost)
+                            }
+                        
+                            SumCost = 0;
                     }
+                
                 if (NoCost === undefined){
                     NoCost = "No one"
                 }
@@ -295,6 +304,15 @@
             document.getElementById("json").innerHTML = JSON.stringify(ShipUp, undefined, 4);
             
         }
+        function cleanArray(actual) {
+          var newArray = new Array();
+          for (var i = 0; i < actual.length; i++) {
+            if (actual[i]) {
+              newArray.push(actual[i]);
+            }
+          }
+          return newArray;
+        }   
  
  
     </script>
