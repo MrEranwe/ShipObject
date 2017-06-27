@@ -78,7 +78,7 @@
                 <p>Elements with no Cost: <span id="NoCost"></span></p>
                 <button onclick="ShipA.LCGFn()">Calculate LCG</button>
                 <p>Position: [<span id="LCGx"></span>,<span id="LCGy"></span>,<span id="LCGz"></span>]</p>
-                <button onclick="ShipA.PlotFn()">Plot Ship</button>
+                <button onclick="plot3d()">Plot Ship</button>
                 <div id="myDiv"></div>
             </div>
         
@@ -112,7 +112,7 @@
                             "Capabilities": {
                                 "RPM": 500
                             }, 
-                            "Cost": 0
+                            "Cost": 100
                         },
                         "Engine2":{
                             "General":{
@@ -377,7 +377,38 @@
             }
           }
           return newArray;
-        }   
+        } 
+        
+        function plot3d (){
+            var data =[{
+                type: "scatter3d",
+                mode: "lines",
+                x: [0, ShipA.VesselData.Length, ShipA.VesselData.Length, 0, 0, 0, ShipA.VesselData.Length, ShipA.VesselData.Length, ShipA.VesselData.Length, ShipA.VesselData.Length, ShipA.VesselData.Length, ShipA.VesselData.Length, 0, 0, 0, 0],
+                y: [0, 0, ShipA.VesselData.Breadth, ShipA.VesselData.Breadth, 0, 0, 0, 0, 0,  ShipA.VesselData.Breadth, ShipA.VesselData.Breadth, ShipA.VesselData.Breadth, ShipA.VesselData.Breadth, ShipA.VesselData.Breadth, ShipA.VesselData.Breadth, 0],
+                z: [0, 0, 0, 0, 0, ShipA.VesselData.Draft, ShipA.VesselData.Draft, 0, ShipA.VesselData.Draft, ShipA.VesselData.Draft, 0, ShipA.VesselData.Draft, ShipA.VesselData.Draft, 0, ShipA.VesselData.Draft, ShipA.VesselData.Draft]
+            }]
+            var layout = {
+              scene:{
+                aspectmode: "manual",
+                aspectratio: {
+                 x: 1, y: 0.7, z: 1,
+                },
+               xaxis: {
+                nticks: 10,
+                range: [-ShipA.VesselData.Length, ShipA.VesselData.Length*2],
+              },
+               yaxis: {
+                nticks: 10,
+                range: [-ShipA.VesselData.Breadth, ShipA.VesselData.Breadth*2],
+              },
+               zaxis: {
+               nticks: 10,
+               range: [-ShipA.VesselData.Draft, ShipA.VesselData.Draft*2],
+              }},
+            };
+            
+            Plotly.plot("myDiv", data, layout, {})
+        }
  
  
     </script>
