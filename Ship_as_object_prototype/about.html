@@ -10,7 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    
+     <title>Ship As Object</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -61,10 +62,11 @@
                 <h1>Ship as Object</h1>
                 <p>The app recibes a text with the form as: </p>
                 <pre>{"ShipA":{"VesselData":{"Length":100, "Breadth":30, "Depth":8, "Draft":5, "BlockCoefficient":0.75, "PrismaticCoefficient":0.8},"ObjectsData":{"Engine":{"General":{"Type": "Engine", "Length":2, "Width":4, "Height":2}, "Capabilities": {"RPM": 500}}}, "HullData":{"Offsets":{"Data":[1, 2, 3]}}}}</pre>
-                <p>And gives back the pretty form of the JSON element.</p>
+                <p>and gives back the pretty form of the JSON element. </p> 
+                <p>It calculates the total cost of the objects inside Objects Data and states which ones have no cost. It calculates the LCG due to the position and weight of the objets and plots them in a 3D model.</p>
                 <p>Also, more about the project in <a href="">GitHub,</a>.</p>
                                     
-                    Developed by:   
+                    Developed by: Vicente Alejandro Iváñez Encinas and Henrique M. Gaspar
 
             </div>
             
