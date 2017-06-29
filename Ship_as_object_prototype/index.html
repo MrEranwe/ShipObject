@@ -81,18 +81,23 @@
                 <p>Elements with no Cost: <span id="NoCost"></span></p>
                 <button onclick="ShipA.LCGFn()">Calculate LCG</button>
                 <p>Position: [<span id="LCGx"></span>,<span id="LCGy"></span>,<span id="LCGz"></span>]</p>
-                <button onclick="plotBl()">Plot Blocks</button>
-                <style>canvas {width:100%; height: 100px}</style>
+            </div>
+            <div id="3d" class="col-md-12 text-left">
+                <button onclick="createscene()">Create Scene</button> 
+                <button onclick="plotBl()">Update Blocks</button> 
+                <style id="3d">body { margin: 100; } canvas {width:100%; height: 100%}</style>
                 <br>
                 <br>
             </div>
         
         </div>
+       
             
        
         
 
     </div>
+    
     
     <script>
         function Vessel(name) {
@@ -384,18 +389,26 @@
           return newArray;
         } 
         */
-        function plotBl (){
-            // Create scene
-            var scene = new THREE.Scene()
+        // Create scene+
+        function createscene(){
+            scene = new THREE.Scene()
             
             // Set camera
-            var camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight, 1,10000)
+            camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight, 1,10000)
             
             // Set renderer
-            var renderer = new THREE.WebGLRenderer()
+            renderer = new THREE.WebGLRenderer()
             renderer.setSize(window.innerWidth, window.innerHeight)
             document.body.appendChild(renderer.domElement)
-            
+            plotBl()
+        }
+        
+        //Function create & update blocks
+        function plotBl (){
+            while(scene.children.length > 0){ 
+            scene.remove(scene.children[0]); 
+            }
+                        
             // Creating Hull
             var geometryH = new THREE.BoxGeometry(ShipA.VesselData.Length, ShipA.VesselData.Breadth, ShipA.VesselData.Depth, 1, 1, 1)
             var materialH = new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true})
@@ -451,13 +464,13 @@
             camera.lookAt(new THREE.Vector3(0,0,0))
             
             // Rendering function
-            function render() {
-                requestAnimationFrame(render)
+            function animate() {
+                requestAnimationFrame(animate)
                 renderer.render(scene, camera)
                 renderer.setClearColor(0xA9CCE3, 1)
                 
             }
-            render()
+            animate()
             
             console.log(material[1])        
             console.log(material[2])        
