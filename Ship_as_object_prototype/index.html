@@ -18,6 +18,12 @@
     
     <!-- Three script -->
     <script src="http://threejs.org/build/three.min.js"></script>
+    
+    <!-- jQuery Version 1.11.1 -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -82,8 +88,8 @@
                 <button onclick="ShipA.LCGFn()">Calculate LCG</button>
                 <p>Position: [<span id="LCGx"></span>,<span id="LCGy"></span>,<span id="LCGz"></span>]</p>
             </div>
-            <div id="3d" class="col-md-12 text-left">
-                <button onclick="createscene()">Create Scene</button> 
+            <div class="col-md-12 text-left">
+                <!-- <button onclick="createscene()">Create Scene</button> -->
                 <button onclick="plotBl()">Update Blocks</button> 
                 <style id="3d">body { margin: 100; } canvas {width:100%; height: 100%}</style>
                 <br>
@@ -97,7 +103,9 @@
         
 
     </div>
-    
+    <div class="container">
+    </div>
+
     
     <script>
         function Vessel(name) {
@@ -390,7 +398,7 @@
         } 
         */
         // Create scene+
-        function createscene(){
+        //function createscene(){
             scene = new THREE.Scene()
             
             // Set camera
@@ -401,7 +409,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight)
             document.body.appendChild(renderer.domElement)
             plotBl()
-        }
+        //}
         
         //Function create & update blocks
         function plotBl (){
@@ -479,21 +487,89 @@
             
             
 
-       }
-    
-     </script>
+        }
+        
+        // Test move camera
+        var isDragging = false;
+        var previousMousePosition = {
+            x: 0,
+            y: 0
+        };
+        $(renderer.domElement).on('mousedown', function(e) {
+            isDragging = true;
+        })
+        .on('mousemove', function(e) {
+            //console.log(e);
+            var deltaMove = {
+                x: e.offsetX-previousMousePosition.x,
+                y: e.offsetY-previousMousePosition.y
+            };
+
+            if(isDragging) {
+
+                var deltaRotationQuaternion = new THREE.Quaternion()
+                    .setFromEuler(new THREE.Euler(
+                        toRadians(deltaMove.y * 1),
+                        toRadians(deltaMove.x * 1),
+                        0,
+                        'XYZ'
+                    ));
+
+                camera.quaternion.multiplyQuaternions(deltaRotationQuaternion, camera.quaternion);
+            }
+
+            previousMousePosition = {
+                x: e.offsetX,
+                y: e.offsetY
+            };
+        });
+        /* */
+
+        $(document).on('mouseup', function(e) {
+            isDragging = false;
+        });
+
+
+
+        // shim layer with setTimeout fallback
+        window.requestAnimFrame = (function(){
+            return  window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                function(callback) {
+                    window.setTimeout(callback, 1000 / 60);
+                };
+        })();
+
+
+            function toRadians(angle) {
+            return angle * (Math.PI / 180);
+        }
+
+        function toDegrees(angle) {
+            return angle * (180 / Math.PI);
+        }
+        
+        //Hide plot
+        function hide() {
+            var div = document.getElementById('3d');
+            if (div.style.display == 'none') {
+                div.style.display="";
+            }
+            else {
+                div.style.display = 'none';
+            }
+        }
+        document.onload = hide()
+
+        
+    </script>
     <!-- /.container -->
     
     
     
     <!-- Insert own scripts here -->
       
-
-    <!-- jQuery Version 1.11.1 -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
 
 </body>
 
